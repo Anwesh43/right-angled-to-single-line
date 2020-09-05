@@ -200,3 +200,25 @@ class RightAngledToSingleLine {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    animator : Animator = new Animator()
+    rasl : RightAngledToSingleLine = new RightAngledToSingleLine()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rasl.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rasl.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rasl.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
