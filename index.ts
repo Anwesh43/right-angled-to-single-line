@@ -8,6 +8,21 @@ const backColor : string = "#bdbdbd"
 const colors : Array<string> = ["#2196F3", "#4CAF50", "#F44336", "#3F51B5", "#FF9800"]
 const delay : number = 90
 
+class ScaleUtil {
+
+    static maxScale(scale : number, i : number, n : number) : number {
+        return Math.max(0, scale - i / n)
+    }
+
+    static divideScale(scale : number, i : number, n : number) : number {
+        return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n)) * n
+    }
+
+    static sinify(scale : number) : number {
+        return Math.sin(scale * Math.PI)
+    }
+}
+
 class Stage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
