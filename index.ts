@@ -40,7 +40,7 @@ class DrawingUtil {
         const sf2 : number = ScaleUtil.divideScale(scale, 1, parts)
         const sf3 : number = ScaleUtil.divideScale(scale, 2, parts)
         const sf4 : number = ScaleUtil.divideScale(scale, 3, parts)
-        const size : number = Math.min(w, h) / sizeFactor 
+        const size : number = Math.min(w, h) / sizeFactor
         context.save()
         context.translate(w / 2, h / 2)
         context.rotate(-deg * sf3)
@@ -89,5 +89,29 @@ class Stage {
         stage.initCanvas()
         stage.render()
         stage.handleTap()
+    }
+}
+
+class State {
+
+    scale : number = 0
+    dir : number = 0
+    prevScale : number = 0
+
+    update(cb : Function) {
+        this.scale += scGap * this.dir
+        if (Math.abs(this.scale - this.prevScale) >  1) {
+            this.scale = this.prevScale + this.dir
+            this.dir = 0
+            this.prevScale = this.scale
+            cb()
+        }
+    }
+
+    startUpdating(cb : Function) {
+        if (this.dir == 0) {
+            this.dir = 1 - 2 * this.prevScale
+            cb()
+        }
     }
 }
